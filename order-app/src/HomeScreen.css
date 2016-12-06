@@ -1,0 +1,76 @@
+.home-screen-container {
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+	position: relative;
+}
+.add-new-order-button {
+	position: absolute !important;
+	top: 10px;
+	left: 10px;
+	z-index: 2;
+	float: left;	
+}
+
+.add-new-order-button-control-panel {
+	position: absolute;
+	top: 10px;
+	left: 20%;
+	z-index: 2;
+	margin-left: -24px;
+}
+
+.control-panel {
+	height: 100%;
+	width: 80px;
+	border-right: 2px solid #BBB;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.control-panel-slided {
+	height: 100%;
+	width: 20%;
+	border-right: 2px solid #BBB;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.orders {
+	border-left:2px solid #BBB ;
+	margin-left: 6px;
+	flex-grow:1;
+	height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+#app-order-list {
+	margin-left: 1em;
+}
+
+.home-screen-transition-group {
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+
+}
+
+.home-screen-transition-enter{
+	opacity: 0.01;
+
+}
+
+.home-screen-transition-enter.home-screen-transition-enter-active {
+  	opacity: 1;
+  	transition: opacity 500ms ease-in;
+}
+
+.home-screen-transition-leave {
+  	opacity: 1;
+}
+
+.home-screen-transition-leave.home-screen-transition-leave-active {
+  	opacity: 0.01;
+  	transition: opacity 300ms ease-in;
+}

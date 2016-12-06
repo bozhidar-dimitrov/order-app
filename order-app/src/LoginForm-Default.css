@@ -1,0 +1,28 @@
+.login-form {
+	font-family: 'Roboto', sans-serif;
+	position: relative !important;	
+	display: flex;
+	flex-direction: column;
+}
+
+.login-form-title {
+	font-size: 1.4em !important;
+	align-self: center;
+}
+
+.login-form-username {
+	width: 100% !important;
+}
+
+.login-form-password {
+	width: 100% !important;
+}
+
+.login-form-login-button {
+	width: 50px;
+	align-self: flex-end;
+}
+
+.login-form-login-button span{
+	display: inline-block;
+}

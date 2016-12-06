@@ -1,0 +1,125 @@
+.order-list-container {
+	overflow: auto;
+}
+
+.order-info-container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	height: auto !important;
+}
+
+.order-item-edit-mode-container{
+	height: 10.7em !important;
+	display: flex !important;
+	flex-direction: row !important;
+	margin-left: 7em !important;
+}
+
+.edit-mode-button {
+	display: inline-block;
+	flex:1;
+}
+
+.list-item-left-icon {
+	
+} 
+
+.list-item-left-icon.accepted {
+	fill:#FF5722 !important;
+}
+
+.list-item-left-icon.ready {
+	fill:#4CAF50 !important;
+}
+
+.list-item-left-icon.shipped {
+	fill:#2196F3 !important;
+}
+
+.order-item-opened .list-item-left-icon {
+	top: 24px !important;
+}
+
+.order-info {
+	display: inline-block;
+	height: 20px;
+	margin-top: 4px;
+	margin-bottom: 0px;
+	flex-grow:1;
+	width: 25%;
+}
+
+.order-info-value {
+	font-size: 1.0em;
+}
+
+.order-info-label {
+	font-weight:bold;
+	margin-right: 10px;
+	font-size: 1.0em;
+}
+
+.order-info-container>.order-info:last-child>.order-info-label {
+	display: none;
+}
+
+/*
+.order-item {
+	height: 10.7em !important;
+	position: relative !important;
+	display: block !important;
+}
+
+.order-item > div:first-of-type > div:first-of-type {
+	padding-left: 10px !important;
+	padding-top: 10px !important;
+	padding-bottom: 10px !important;
+	padding-right: 0px !important;
+} */
+
+.order-list-toolbar {
+	position: relative;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.dateToolbar {
+	display: inline-block;
+	align-self: flex-end;
+	min-width: 40%;
+}
+
+.button-bar {
+	margin-top: 7px;
+}
+
+.from-date-picker {
+	display: inline-block;
+}
+
+.to-date-picker {
+	margin-left: 1em;
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.list-item-mode-transition-enter {
+  	opacity: 0.01;
+}
+
+.list-item-mode-transition-enter.list-item-mode-transition-enter-active {
+  	opacity: 1;
+  	transition: opacity 500ms ease-in;
+}
+
+.list-item-mode-transition-leave {
+  	opacity: 1;
+}
+
+.list-item-mode-transition-leave.list-item-mode-transition-leave-active {
+  	opacity: 0.01;
+  	transition: opacity 500ms ease-in;
+}

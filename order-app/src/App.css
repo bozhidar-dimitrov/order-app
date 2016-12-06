@@ -1,0 +1,32 @@
+html, body {
+	height: 100%;
+}
+
+#root {
+	height: 100%;
+}
+
+#app-main-view {
+	height: 100%;
+}
+
+#drawer-app-bar {
+  cursor: pointer;
+}
+
+#app-login-screen {
+	color: #00BCD4 !important;
+}
+
+.order-input-title {
+	color: #00BCD4 !important;
+}
+
+.place-order-button span {
+	color: #00ACC1 !important;
+}
+
+#list-item-caption{
+	font-family: Roboto, sans-serif;
+	color: red;
+}
