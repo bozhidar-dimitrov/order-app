@@ -1,4 +1,5 @@
 import React from 'react';
+import "./OrderList-Default.css";
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
@@ -8,22 +9,24 @@ import FlatButton from 'material-ui/FlatButton';
 
 import OrderListItem from './OrderListItem';
 import OrderListToolbar from './OrderListToolbar';
-import AdvancedComponent from "./AdvancedComponent";
-import Caption from "./Caption";
+import AdvancedComponent from "./../components/AdvancedComponent";
+import Caption from "./../components/Caption";
+import AdditionalPropTypes from "./../utils/AdditionalPropTypes";
+import Order from "./../model/Order";
 
 class OrderList extends AdvancedComponent {
 	static propTypes = {
 		id:React.PropTypes.string.isRequired,
 		data:React.PropTypes.array.isRequired,
-		onOrderMarkedAsAccepted:React.PropTypes.func,
-		onOrderMarkedMarkAsReady:React.PropTypes.func,
-		onOrderMarkedAsShipped:React.PropTypes.func,
-		onEditOrder:React.PropTypes.func,
-		onDeleteOrder:React.PropTypes.func
+		onOrderMarkedAsAccepted:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
+		onOrderMarkedMarkAsReady:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
+		onOrderMarkedAsShipped:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
+		onEditOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
+		onDeleteOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
 	};
 
 	constructor(props) {
-		super(props, "./OrderList-Default.css");
+		super(props);
 
 		this.state = {
 			listItemMode:{}

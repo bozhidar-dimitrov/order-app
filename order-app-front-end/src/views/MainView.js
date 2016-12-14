@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './MainView.css'
+import './MainView-Default.css'
 
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
@@ -7,10 +7,9 @@ import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import muiThemeable from 'material-ui/styles/muiThemeable'
 
-import LoginForm from './LoginForm';
 import HomeScreen from './HomeScreen';
 import LoginScreen from './LoginScreen';
-import StackContainer from './StackContainer';
+import StackContainer from './../components/StackContainer';
 
 class MainView extends Component {
 	constructor(props) {

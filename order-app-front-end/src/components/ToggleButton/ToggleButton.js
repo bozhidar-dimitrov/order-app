@@ -1,8 +1,9 @@
 import React from 'react';
 import muiThemeable from 'material-ui/styles/muiThemeable';
+import './ToggleButton-Default.css';
 
 import FlatButton from 'material-ui/FlatButton';
-import AdvancedComponent from "./AdvancedComponent"
+import AdvancedComponent from "./../AdvancedComponent"
 
 class ToggleButton extends AdvancedComponent {
 	static propTypes = {
@@ -14,7 +15,7 @@ class ToggleButton extends AdvancedComponent {
 	};
 
 	constructor(props) {
-		super(props, "./ToggleButton-Default.css");
+		super(props);
 
 		this.state = {
 			isToggled:props.isToggled

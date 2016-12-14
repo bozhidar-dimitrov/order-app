@@ -1,4 +1,5 @@
 import React from 'react';
+import "./OrderListItem-Default.css";
 import muiThemeable from 'material-ui/styles/muiThemeable';
 
 import {grey400} from 'material-ui/styles/colors';
@@ -15,22 +16,24 @@ import MapsLocalShipping from 'material-ui/svg-icons/maps/local-shipping';
 import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import ContentClear from 'material-ui/svg-icons/content/clear';
 
-import AdvancedComponent from "./AdvancedComponent";
+import AdvancedComponent from "./../components/AdvancedComponent";
+import AdditionalPropTypes from "./../utils/AdditionalPropTypes";
+import Order, {OrderStatus} from "./../model/Order";
 
 class OrderListItem extends AdvancedComponent {
 	static propTypes = {
 		order:React.PropTypes.object.isRequired,
 		expandMode:React.PropTypes.string.isRequired,
 		onExpand:React.PropTypes.func.isRequired,
-		onOrderMarkedAsAccepted:React.PropTypes.func,
-		onOrderMarkedMarkAsReady:React.PropTypes.func,
-		onOrderMarkedAsShipped:React.PropTypes.func,
-		onEditOrder:React.PropTypes.func,
-		onDeleteOrder:React.PropTypes.func
+		onOrderMarkedAsAccepted:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
+		onOrderMarkedMarkAsReady:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
+		onOrderMarkedAsShipped:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
+		onEditOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
+		onDeleteOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
 	};
 
 	constructor(props) {
-		super(props, "./OrderListItem-Default.css");
+		super(props);
 	}
 
 	onOrderMarkedAsAccepted = (order) => {
@@ -115,11 +118,11 @@ class OrderListItem extends AdvancedComponent {
 
 	getOrderStatusIcon = (elementStatus) => {
 		switch (elementStatus) {
-			case 'accepted':
+			case OrderStatus.ACCEPTED:
 				return <ActionAssignment className="list-item-left-icon accepted"/>
-			case 'ready':
+			case OrderStatus.READY:
 				return <ActionDone className="list-item-left-icon ready"/>
-			case 'shipped':
+			case OrderStatus.SHIPPED:
 				return <MapsLocalShipping className="list-item-left-icon shipped"/>
 			default:
 				throw new Error("Unrecognized element status:" + elementStatus);

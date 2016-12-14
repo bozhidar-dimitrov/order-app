@@ -1,10 +1,10 @@
 import React from 'react';
-
+import "./OrderListToolbar-Default.css";
 import muiThemeable from 'material-ui/styles/muiThemeable';
 
-import ToggleButton from './ToggleButton';
+import ToggleButton from './../components/ToggleButton';
 import DatePicker from 'material-ui/DatePicker';
-import AdvancedComponent from "./AdvancedComponent"
+import AdvancedComponent from "./../components/AdvancedComponent"
 
 class OrderListToolbar extends AdvancedComponent {
 	static propTypes = {
@@ -12,7 +12,7 @@ class OrderListToolbar extends AdvancedComponent {
 	};
 
 	constructor(props) {
-		super(props, "./OrderListToolbar-Default.css");
+		super(props);
 	}
 
 	render() {

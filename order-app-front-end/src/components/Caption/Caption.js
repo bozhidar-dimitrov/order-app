@@ -1,7 +1,7 @@
 import React from 'react';
 import muiThemeable from 'material-ui/styles/muiThemeable';
-
-import AdvancedComponent from "./AdvancedComponent"
+import "./Caption-Default.css";
+import AdvancedComponent from "./../AdvancedComponent"
 
 class Caption extends AdvancedComponent {
 	static propTypes = {
@@ -11,7 +11,7 @@ class Caption extends AdvancedComponent {
 	};
 
 	constructor(props) {
-		super(props, "./Caption-Default.css");
+		super(props);
 	}
 
 	render() {

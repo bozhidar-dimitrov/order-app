@@ -1,4 +1,5 @@
 import React from 'react';
+import "./OrderInput-Default.css";
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 import TimePicker from 'material-ui/TimePicker';
@@ -9,7 +10,8 @@ import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 
-import AdvancedComponent from "./AdvancedComponent"
+
+import AdvancedComponent from "./../components/AdvancedComponent"
 
 class OrderInput extends AdvancedComponent {
 	static propTypes = {
@@ -17,7 +19,7 @@ class OrderInput extends AdvancedComponent {
 	};
 
 	constructor(props) {
-		super(props, "./OrderInput.css");
+		super(props);
 	}
 
 	render() {

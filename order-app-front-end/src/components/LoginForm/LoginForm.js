@@ -1,5 +1,7 @@
-import AdvancedComponent from "./AdvancedComponent";
+import AdvancedComponent from "./../AdvancedComponent";
 import muiThemeable from 'material-ui/styles/muiThemeable'
+import  "./LoginForm-Default.css";
+
 import React from 'react';
 import TextField from "material-ui/TextField";
 import RaisedButton from "material-ui/RaisedButton";
@@ -12,7 +14,7 @@ class LoginForm extends AdvancedComponent {
 	};
 
 	constructor(props) {
-		super(props, "./LoginForm-Default.css");
+		super(props);
 	}
 
 	onLogin = () => {

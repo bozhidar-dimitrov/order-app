@@ -1,9 +1,10 @@
 import React from 'react';
-import AdvancedComponent from "./AdvancedComponent"
-import LoginForm from './LoginForm';
+import AdvancedComponent from "./../components/AdvancedComponent"
+import LoginForm from './../components/LoginForm';
 import Paper from 'material-ui/Paper';
 import muiThemeable from 'material-ui/styles/muiThemeable'
- 
+import "./LoginScreen-Default.css";
+
 class LoginScreen extends AdvancedComponent {
 	static propTypes = {
 		id:React.PropTypes.string.isRequired,
@@ -12,7 +13,7 @@ class LoginScreen extends AdvancedComponent {
 	};
 
 	constructor(props) {
-		super(props, "./LoginScreen.css");
+		super(props);
 	}
 
 	onLogin = (username, password) => {

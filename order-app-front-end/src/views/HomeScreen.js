@@ -8,11 +8,11 @@ import IconButton from 'material-ui/IconButton';
 import AppBar from 'material-ui/AppBar';
 import HardwareKeyboardArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left';
 import muiThemeable from 'material-ui/styles/muiThemeable';
-
+import "./HomeScreen-Default.css"
 
 import OrderInput from "./OrderInput";
 import OrderList from "./OrderList";
-import AdvancedComponent from "./AdvancedComponent";
+import AdvancedComponent from "./../components/AdvancedComponent";
 
 class HomeScreen extends AdvancedComponent {
 	static propTypes = {
@@ -21,7 +21,7 @@ class HomeScreen extends AdvancedComponent {
 	};
 
 	constructor(props) {
-		super(props, "./HomeScreen.css");
+		super(props);
 		this.state = {
 			showControlPanel:false
 		}
@@ -56,6 +56,8 @@ class HomeScreen extends AdvancedComponent {
 			</FloatingActionButton>
 		}
 }
+	
+	
 
 	render() {
 

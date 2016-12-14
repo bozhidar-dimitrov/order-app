@@ -1,6 +1,8 @@
 import React from 'react';
-import AdvancedComponent from "./AdvancedComponent"
+import AdvancedComponent from "./../AdvancedComponent"
 import muiThemeable from 'material-ui/styles/muiThemeable'
+import "./StackContainer-Default.css";
+
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 class StackContainer extends AdvancedComponent {
@@ -9,7 +11,7 @@ class StackContainer extends AdvancedComponent {
 	};
 
 	constructor(props) {
-		super(props, "./StackContainer-Default.css");
+		super(props);
 	}
 
 	render() {
