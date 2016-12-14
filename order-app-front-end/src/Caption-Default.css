@@ -1,0 +1,8 @@
+.component-caption-container {
+	display:flex;
+	flex-direction: column;
+}
+
+.component-caption-text {
+	text-align: center;
+}

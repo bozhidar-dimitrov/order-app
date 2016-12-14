@@ -1,0 +1,46 @@
+.order-input-container {
+	position: relative;
+}
+.place-order-button {
+	position: absolute;
+	right: 0px;
+}
+
+.order-input-title {
+	font-size: 1.4em;
+	padding: 10px;
+}
+
+.due-date-picker {
+	height: 50px;
+}
+
+.time-picker {
+	height:48px !important;
+	width: 100% !important;
+}
+
+.time-picker>input {
+	bottom:2px !important;
+}
+
+.time-picker>div {
+	bottom:14px !important;
+}
+
+.time-picker hr {
+	bottom:0px !important;
+}
+
+.due-date-picker>:first-child {
+	height:56px !important;
+	width: 100% !important;
+}
+
+.due-date-picker>:first-child>input {
+	bottom:5px !important;
+}
+
+.due-date-picker>div>div {
+	bottom: 20px !important;
+}

@@ -1,0 +1,27 @@
+.order-list-toolbar {
+	position: relative;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.dateToolbar {
+	display: inline-block;
+	align-self: flex-end;
+	min-width: 40%;
+}
+
+.button-bar {
+	margin-top: 7px;
+}
+
+.from-date-picker {
+	display: inline-block;
+}
+
+.to-date-picker {
+	margin-left: 1em;
+	display: inline-block;
+	margin-right: 1em;
+}
