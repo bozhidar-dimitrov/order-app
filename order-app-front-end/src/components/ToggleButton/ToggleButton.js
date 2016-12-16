@@ -5,6 +5,9 @@ import './ToggleButton-Default.css';
 import FlatButton from 'material-ui/FlatButton';
 import AdvancedComponent from "./../AdvancedComponent"
 
+/*
+ * Controlled component 
+ */
 class ToggleButton extends AdvancedComponent {
 	static propTypes = {
 		id:React.PropTypes.string,
@@ -16,19 +19,12 @@ class ToggleButton extends AdvancedComponent {
 
 	constructor(props) {
 		super(props);
-
-		this.state = {
-			isToggled:props.isToggled
-		}
 	}
 
-	handleTouchTap = () => {
-		this.setState((prevState, props) => {
-			return {isToggled:!prevState.isToggled}
-		});
+	handleTouchTap = (e) => {
 
 		if (this.props.onToggle) {
-			this.props.onToggle();
+			this.props.onToggle(e);
 		}
 	};
 
@@ -44,7 +40,7 @@ class ToggleButton extends AdvancedComponent {
 		const normalProps = {...this.props.normal};
 		const toggleProps = {...this.props.normal, style:toggleStyle, ...this.props.toggle}; 
 
-		if (this.state.isToggled) {
+		if (this.props.isToggled) {
 			
 			return <FlatButton 	
 						id={this.props.id} 

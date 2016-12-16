@@ -109,8 +109,10 @@ class OrderListItem extends AdvancedComponent {
 		return rightIconMenu;
 	};
 
-	createOrderTitle = (dueDate, time) => {
-		const elementTitle = `${dueDate} ${time}`;
+	createOrderTitle = (dueDate, timeDate) => {
+		const date = dueDate.getDate() + '/' + dueDate.getMonth() +'/'+dueDate.getFullYear();
+		const time = timeDate.getHours() + ':' + timeDate.getMinutes();
+		const elementTitle = `${date} ${time}`;
 		return <span 
 				className="order-item-title">{elementTitle}
 		</span>;

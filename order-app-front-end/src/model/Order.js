@@ -6,8 +6,13 @@ export class OrderStatus {
 	static get READY() {
 		return "ready";
 	}
+	
 	static get SHIPPED() {
 		return "shipped";
+	}
+
+	static get LIST_OF_ALL_STATUSES() {
+		return [OrderStatus.ACCEPTED, OrderStatus.READY, OrderStatus.SHIPPED]
 	}
 }
 

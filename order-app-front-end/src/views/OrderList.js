@@ -13,6 +13,7 @@ import AdvancedComponent from "./../components/AdvancedComponent";
 import Caption from "./../components/Caption";
 import AdditionalPropTypes from "./../utils/AdditionalPropTypes";
 import Order from "./../model/Order";
+import OrderListFilter from "./../model/OrderListFilter";
 
 class OrderList extends AdvancedComponent {
 	static propTypes = {
@@ -23,6 +24,7 @@ class OrderList extends AdvancedComponent {
 		onOrderMarkedAsShipped:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
 		onEditOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
 		onDeleteOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
+		onOrderListFilterChanged:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OrderListFilter))
 	};
 
 	constructor(props) {
@@ -81,7 +83,7 @@ class OrderList extends AdvancedComponent {
 	};
 
 	createOrderListToolbar = (orderListToolbar) => {
-		return <OrderListToolbar />;
+		return <OrderListToolbar onOrderListFilterChanged={this.props.onOrderListFilterChanged}/>;
 	};
 
 	render() {

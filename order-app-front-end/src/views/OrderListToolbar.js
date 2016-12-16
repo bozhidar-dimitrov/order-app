@@ -5,15 +5,81 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 import ToggleButton from './../components/ToggleButton';
 import DatePicker from 'material-ui/DatePicker';
 import AdvancedComponent from "./../components/AdvancedComponent"
+import AdditionalPropTypes from "./../utils/AdditionalPropTypes";
+import {OrderStatus} from "./../model/Order";
+import OrderListFilter from "./../model/OrderListFilter";
 
 class OrderListToolbar extends AdvancedComponent {
 	static propTypes = {
 		id:React.PropTypes.string,
+		onOrderListFilterChanged:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OrderListFilter))
 	};
 
 	constructor(props) {
 		super(props);
+
+		const currentDate = new Date();
+		const oneDayAfterCurrentDate = new Date();
+		oneDayAfterCurrentDate.setDate(currentDate.getDate()+1);
+		this.state = {
+			acceptedToggled:true,
+			readyToggled:true,
+			shippedToggled:false,
+			fromDate: currentDate,
+			toDate: oneDayAfterCurrentDate
+		}
 	}
+
+	onFilterChanged = () => {
+		if (this.props.onOrderListFilterChanged) {
+			let statusesToShow = [];
+			if (this.state.acceptedToggled) {
+				statusesToShow.append(OrderStatus.ACCEPTED);
+			}
+
+			if (this.state.readyToggled) {
+				statusesToShow.append(OrderStatus.READY);
+			}
+
+			if (this.state.shippedToggled) {
+				statusesToShow.append(OrderStatus.SHIPPED);
+			}
+
+			const filter = new OrderListFilter(statusesToShow, this.state.fromDate, this.state.toDate);
+			this.props.onOrderListFilterChanged(filter);		
+		}
+	}
+
+	onAcceptedOrderButtonToggle = (e) => {
+		this.setState((prevState, props) => {
+			return {acceptedToggled: !prevState.acceptedToggled}
+		})
+		this.onFilterChanged();
+	};
+
+	onReadyOrderButtonToggle = (e) => {
+		this.setState((prevState, props) => {
+			return {readyToggled: !prevState.readyToggled}
+		})
+		this.onFilterChanged();
+	};
+
+	onShippedOrderButtonToggle = (e) => {
+		this.setState((prevState, props) => {
+			return {shippedToggled: !prevState.shippedToggled}
+		})
+		this.onFilterChanged();
+	};
+
+	onFromDateChanged = (e, date) => {
+		this.setState({fromDate:date});
+		this.onFilterChanged();
+	};
+
+	onToDateChanged = (e, date) => {
+		this.setState({toDate:date})
+		this.onFilterChanged();
+	};
 
 	render() {
 		const normalButtonStyle = {
@@ -29,17 +95,19 @@ class OrderListToolbar extends AdvancedComponent {
 					<div className="button-bar">
 						<ToggleButton 
 							className="accepted-order-button"
-							isToggled={true} 
+							isToggled={this.state.acceptedToggled} 
 							normal={{
 								label:"Accepted",
 								style:normalButtonStyle
 							}}
 							toggle= {{
 								style:toggleButtonStyle
-							}}/>
+							}}
+							onToggle={this.onAcceptedOrderButtonToggle}
+							/>
 						<ToggleButton 
 							className="ready-orders-button"  
-							isToggled={false}
+							isToggled={this.state.readyToggled} 
 							normal={{
 								label:"Ready",
 								style:normalButtonStyle
@@ -47,21 +115,32 @@ class OrderListToolbar extends AdvancedComponent {
 							toggle= {{
 								style:toggleButtonStyle
 							}}
+							onToggle={this.onReadyOrderButtonToggle}
 							/>
 						<ToggleButton 
 							className="delivered-orders-button" 
-							isToggled={false}
+							isToggled={this.state.shippedToggled}
 							normal={{
 								label:"Delivered",
 								style:normalButtonStyle
 							}}
 							toggle= {{
 								style:toggleButtonStyle
-							}}/>
+							}}
+							onToggle={this.onShippedOrderButtonToggle}
+							/>
 					</div>
 					<div className = "dateToolbar">
-						<DatePicker className="from-date-picker" hintText="From Date" />
-						<DatePicker className="to-date-picker" hintText="To Date" />
+						<DatePicker className="from-date-picker" 
+							hintText="From Date" 
+							defaultDate={this.state.fromDate}
+							onChange={this.onFromDateChanged}
+							/>
+						<DatePicker className="to-date-picker" 
+							hintText="To Date" 
+							defaultDate={this.state.toDate}
+							onChange={this.onToDateChanged}
+							/>
 					</div>
 				</div>
 		);

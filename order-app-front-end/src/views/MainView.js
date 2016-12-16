@@ -10,6 +10,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
 import HomeScreen from './HomeScreen';
 import LoginScreen from './LoginScreen';
 import StackContainer from './../components/StackContainer';
+import Order from './../model/Order';
 
 class MainView extends Component {
 	constructor(props) {
@@ -23,47 +24,47 @@ class MainView extends Component {
 			isLoggedIn:true,
 			loginErrorMessage:"",
 			currentScreen:this.HOME_SCREEN,
-			orders:[{
-				"id":1,
-				"clientName":"ivan",
-				"clientAddress":"Mladost2",
-				"clientPhone": "123123123",
-				"clientOrder": "Some order",
-				"dueDate":"21/01/2016",
-				"voucherNumber": "123142123",
-				"time":"17:30",
-				"status": "accepted"
-			},{
-				"id":2,
-				"clientName":"ivan",
-				"clientAddress":"Mladost2",
-				"clientPhone": "123123123",
-				"clientOrder": "Some order",
-				"dueDate":"21/01/2016",
-				"voucherNumber": "123142123",
-				"time":"17:30",
-				"status": "ready"
-			},{
-				"id":3,
-				"clientName":"ivan",
-				"clientAddress":"Mladost2",
-				"clientPhone": "123123123",
-				"clientOrder": "Some order",
-				"dueDate":"21/01/2016",
-				"voucherNumber": "123142123",
-				"time":"17:30",
-				"status": "shipped"
-			},{
-				"id":4,
-				"clientName":"ivan",
-				"clientAddress":"Mladost2",
-				"clientPhone": "123123123",
-				"clientOrder": "Some order",
-				"dueDate":"21/01/2016",
-				"voucherNumber": "123142123",
-				"time":"17:30",
-				"status": "accepted"
-			}]
+			orders:[new Order(
+				1,
+				"ivan",
+				"Mladost2",
+				"123123123",
+				"Some order",
+				new Date(),
+				"123142123",
+				new Date(),
+				"accepted"
+			), new Order(
+				2,
+				"ivan",
+				"Mladost2",
+				"123123123",
+				"Some order",
+				new Date(),
+				"123142123",
+				new Date(),
+				"ready"
+			),new Order(
+				3,
+				"ivan",
+				"Mladost2",
+				"123123123",
+				"Some order",
+				new Date(),
+				"123142123",
+				new Date(),
+				"shipped"
+			), new Order(
+				4,
+				"ivan",
+				"Mladost2",
+				"123123123",
+				"Some order",
+				new Date(),
+				"123142123",
+				new Date(),
+				"accepted"
+			)]
 		}
 	}
 
