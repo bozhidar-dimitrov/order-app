@@ -13,18 +13,19 @@ import AdvancedComponent from "./../components/AdvancedComponent";
 import Caption from "./../components/Caption";
 import AdditionalPropTypes from "./../utils/AdditionalPropTypes";
 import Order from "./../model/Order";
+import OptimisticModel from "./../model/OptimisticModel";
 import OrderListFilter from "./../model/OrderListFilter";
 
 class OrderList extends AdvancedComponent {
 	static propTypes = {
 		id:React.PropTypes.string.isRequired,
 		data:React.PropTypes.array.isRequired,
-		onOrderMarkedAsAccepted:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
-		onOrderMarkedMarkAsReady:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
-		onOrderMarkedAsShipped:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
-		onEditOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
-		onDeleteOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
-		onOrderListFilterChanged:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OrderListFilter))
+		onOrderMarkedAsAccepted:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onOrderMarkedMarkAsReady:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onOrderMarkedAsShipped:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onEditOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onDeleteOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onOrderListFilterChanged:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel))
 	};
 
 	constructor(props) {
@@ -38,14 +39,24 @@ class OrderList extends AdvancedComponent {
 	componentWillMount() {
 		var newListItemMode = {};
 		this.props.data.forEach((element)=>{
-			newListItemMode[element.id] = "normal";
+			newListItemMode[element.model.id] = "normal";
 		});
 
 		this.setState({listItemMode:newListItemMode});
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if (this.props.data !== nextProps.data) {
+			var newListItemMode = {};
+			nextProps.data.forEach((element)=>{
+				newListItemMode[element.model.id] = "normal";
+			});
+			this.setState({listItemMode:newListItemMode});
+		}
+	}
+
 	onListItemExpanded = (order) => {
-		const orderId = order.id;
+		const orderId = order.model.id;
 
 		var newListItemMode = {}
 			for(var key in this.state.listItemMode){
@@ -69,10 +80,10 @@ class OrderList extends AdvancedComponent {
 		}
 
 		const items = this.props.data.map((order)=> {
-			const mode = this.state.listItemMode[order.id];
+			const mode = this.state.listItemMode[order.model.id];
 			console.log(mode);
 			return <OrderListItem 
-					key={order.id}
+					key={order.model.id}
 					expandMode={mode}
 					onExpand={this.onListItemExpanded}
 					order={order} 

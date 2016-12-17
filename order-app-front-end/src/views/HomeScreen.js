@@ -17,6 +17,7 @@ import OrderList from "./OrderList";
 import AdvancedComponent from "./../components/AdvancedComponent";
 
 import Order from "./../model/Order";
+import OptimisticModel from "./../model/OptimisticModel";
 import OrderListFilter from "./../model/OrderListFilter";
 import AdditionalPropTypes from "./../utils/AdditionalPropTypes";
 
@@ -24,12 +25,12 @@ class HomeScreen extends AdvancedComponent {
 	static propTypes = {
 		id:React.PropTypes.string.isRequired,
 		orders:React.PropTypes.array.isRequired,
-		onOrderMarkedAsAccepted:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
-		onOrderMarkedMarkAsReady:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
-		onOrderMarkedAsShipped:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
-		onEditOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
-		onDeleteOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
-		onOrderListFilterChanged:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OrderListFilter))
+		onOrderMarkedAsAccepted:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onOrderMarkedMarkAsReady:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onOrderMarkedAsShipped:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onUpdateOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onDeleteOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onOrderListFilterChanged:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel))
 	};
 
 	constructor(props) {
@@ -63,7 +64,7 @@ class HomeScreen extends AdvancedComponent {
 	};
 
 	closeControlPanel = () => {
-		this.setState({showControlPanel:false, orderToEdit:null});
+		this.setState({showControlPanel:false, orderToEdit:null, replacingOrder:null, isOrderInputEmpty:true});
 	};
 
 	getFloatingActionButton = () => {
@@ -99,7 +100,10 @@ class HomeScreen extends AdvancedComponent {
 	};
 
 	handleReplaceOrder = () => {
+		console.log("Replacing Order");
 		this.setState((prevState, props)=>{
+			console.log("Replacing Order:"+JSON.stringify(prevState.replacingOrder));
+			console.log("Order To Edit:"+JSON.stringify(prevState.orderToEdit));
 			return {orderToEdit:prevState.replacingOrder, replacingOrder:null, isReplaceDataDialogOpen:false};
 		});
 	};
@@ -147,8 +151,12 @@ class HomeScreen extends AdvancedComponent {
 	    ];
 
 	    return actions;
-	}
+	};
 
+	onUpdateOrder = (order) => {
+		this.closeControlPanel();
+		this.props.onUpdateOrder(order);
+	};
 
 	render() {
 
@@ -156,6 +164,15 @@ class HomeScreen extends AdvancedComponent {
 		const floatingActionButton = this.getFloatingActionButton();
 		const replaceDataDialogActions = this.createReplaceDataDialogActions();
 		const closeOrderFormDialogAction = this.createCloseOrderFormDialogActions();
+
+		const orderListCallbacks = {
+			onOrderMarkedAsAccepted:this.props.onOrderMarkedAsAccepted,
+			onOrderMarkedMarkAsReady:this.props.onOrderMarkedMarkAsReady,
+			onOrderMarkedAsShipped:this.props.onOrderMarkedAsShipped,
+			onUpdateOrder:this.props.onUpdateOrder,
+			onDeleteOrder:this.props.onDeleteOrder,
+			onOrderListFilterChanged:this.props.onOrderList
+		}
 
 		return (	
 			<Paper id = {this.props.id} className = "home-screen-container">
@@ -186,10 +203,13 @@ class HomeScreen extends AdvancedComponent {
 		         	{floatingActionButton}
 				<Paper key="controlPanel" className = {controlPanelClassName} zDepth={2}>
 					{this.state.showControlPanel && 
-						<OrderInput id="app-order-input" orderToEdit={this.state.orderToEdit} onEmptyChanged={this.onEmptyChanged}/> }
+						<OrderInput id="app-order-input" 
+						orderToEdit={this.state.orderToEdit} 
+						onEmptyChanged={this.onEmptyChanged}
+						onPlaceOrder={this.onUpdateOrder}/> }
 				</Paper> 
 				<Paper key="orders" className="orders" zDepth={2}>
-					<OrderList id="app-order-list" data={this.props.orders} onEditOrder={this.onEditOrder}/>
+					<OrderList id="app-order-list" {...orderListCallbacks} data={this.props.orders} onEditOrder={this.onEditOrder}/>
 				</Paper>
 
 				</ReactCSSTransitionGroup>

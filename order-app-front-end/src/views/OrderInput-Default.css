@@ -4,6 +4,8 @@
 .place-order-button {
 	position: absolute;
 	right: 0px;
+	width: 100%;
+	margin-top: 1.9em;
 }
 
 .order-input-title {
@@ -15,13 +17,32 @@
 	height: 50px;
 }
 
+
+.input-field {
+	height: 60px !important;
+	margin-bottom: -10px;
+}
+
+.input-field>label{
+	top: 28px !important;
+}
+
+.input-field>input{
+	margin-top:7px !important;
+}
+
+.input-field>div {
+	bottom: 10px !important;
+}
+
 .time-picker {
 	height:48px !important;
 	width: 100% !important;
+	margin-top: -6px;
 }
 
 .time-picker>input {
-	bottom:2px !important;
+	bottom:-5px !important;
 }
 
 .time-picker>div {
@@ -33,14 +54,24 @@
 }
 
 .due-date-picker>:first-child {
-	height:56px !important;
+	height:60px !important;
 	width: 100% !important;
 }
 
+.due-date-picker>:first-child > label{
+	top:30px !important;
+}
+
 .due-date-picker>:first-child>input {
-	bottom:5px !important;
+	bottom:2px !important;
+	margin-top: 0px !important;
+	padding-top: 28px !important;
 }
 
 .due-date-picker>div>div {
-	bottom: 20px !important;
+	bottom: 7px !important;
+}
+
+.order-input-container>hr:last-of-type {
+	margin-top:-14px !important;
 }

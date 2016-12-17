@@ -56,7 +56,8 @@ class OrderListItem extends AdvancedComponent {
 
 	onEditOrder = (order) => {
 		if(this.props.onEditOrder) {
-			this.props.onEditOrder(order);
+			var orderToDispatch = {...order}
+			this.props.onEditOrder(orderToDispatch);
 		}
 	};
 
@@ -135,23 +136,23 @@ class OrderListItem extends AdvancedComponent {
 		return 	<div key="normal" className ="order-info-container">
 					<span className ="order-info">
 						<span className = "client-name-label order-info-label">Client Name:</span>
-						<span className = "client-name order-info-value">{element.clientName}</span>
+						<span className = "client-name order-info-value">{element.model.clientName}</span>
 					</span>
 					<span className ="order-info">
 						<span className = "client-address-label order-info-label">Address:</span>
-						<span className = "client-address order-info-value">{element.clientAddress}</span>
+						<span className = "client-address order-info-value">{element.model.clientAddress}</span>
 					</span>
 					<span className ="order-info">
 						<span className = "client-phone-label order-info-label">Phone:</span>
-						<span className = "client-phone order-info-value">{element.clientPhone}</span>
+						<span className = "client-phone order-info-value">{element.model.clientPhone}</span>
 					</span>
 					<span className ="order-info">
 						<span className = "vocher-number-label order-info-label">Voucher Number:</span>
-						<span className = "voucher-number order-info-value">{element.voucherNumber}</span>
+						<span className = "voucher-number order-info-value">{element.model.voucherNumber}</span>
 					</span>
 					<span className ="order-info">
 						<span className = "client-order-label order-info-label">Order:</span>
-						<span className = "client-order order-info-value">{element.clientOrder}</span>
+						<span className = "client-order order-info-value">{element.model.clientOrder}</span>
 					</span>
 				</div>
 	};
@@ -164,26 +165,26 @@ class OrderListItem extends AdvancedComponent {
 		}
 
 		const rightIconMenu = this.createListItemRightIconMenu(order);
-		const orderTitle = this.createOrderTitle(order.dueDate, order.time);
+		const orderTitle = this.createOrderTitle(order.model.dueDate, order.model.time);
 		if (this.props.expandMode === "opened") {
 			return <ListItem 
-							key={order.id} 
+							key={order.model.id} 
 							className="order-item-opened" 
 							primaryText={orderTitle} 
 							secondaryText={this.createOrderInfo(order)}
 							onTouchTap={expandListItemFunction}
 							rightIconButton={rightIconMenu}
-							leftIcon={this.getOrderStatusIcon(order.status)}>
+							leftIcon={this.getOrderStatusIcon(order.model.status)}>
 					</ListItem>;
 		} else {
 			return	<ListItem 
-							key={order.id} 
+							key={order.model.id} 
 							className="order-item-normal" 
 							primaryText={orderTitle} 
-							secondaryText={order.clientOrder}
+							secondaryText={order.model.clientOrder}
 							rightIconButton={rightIconMenu}
 							onTouchTap={expandListItemFunction}
-							leftIcon={this.getOrderStatusIcon(order.status)}>
+							leftIcon={this.getOrderStatusIcon(order.model.status)}>
 					</ListItem>;
 		}
 	};

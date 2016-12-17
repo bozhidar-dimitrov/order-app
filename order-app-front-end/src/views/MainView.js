@@ -11,8 +11,21 @@ import HomeScreen from './HomeScreen';
 import LoginScreen from './LoginScreen';
 import StackContainer from './../components/StackContainer';
 import Order from './../model/Order';
+import OptimisticModel from './../model/OptimisticModel';
+import OrderListFilter from './../model/OrderListFilter';
+import AdditionalPropTypes from "./../utils/AdditionalPropTypes";
 
 class MainView extends Component {
+	static propTypes = {
+		orders:React.PropTypes.arrayOf(React.PropTypes.instanceOf(OptimisticModel)),
+		onOrderMarkedAsAccepted:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onOrderMarkedMarkAsReady:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onOrderMarkedAsShipped:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onUpdateOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onDeleteOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onOrderListFilterChanged:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel))
+	}
+
 	constructor(props) {
 		super(props);
 
@@ -23,48 +36,7 @@ class MainView extends Component {
 			isDrawerOpen:false,
 			isLoggedIn:true,
 			loginErrorMessage:"",
-			currentScreen:this.HOME_SCREEN,
-			orders:[new Order(
-				1,
-				"ivan",
-				"Mladost2",
-				"123123123",
-				"Some order",
-				new Date(),
-				"123142123",
-				new Date(),
-				"accepted"
-			), new Order(
-				2,
-				"ivan",
-				"Mladost2",
-				"123123123",
-				"Some order",
-				new Date(),
-				"123142123",
-				new Date(),
-				"ready"
-			),new Order(
-				3,
-				"ivan",
-				"Mladost2",
-				"123123123",
-				"Some order",
-				new Date(),
-				"123142123",
-				new Date(),
-				"shipped"
-			), new Order(
-				4,
-				"ivan",
-				"Mladost2",
-				"123123123",
-				"Some order",
-				new Date(),
-				"123142123",
-				new Date(),
-				"accepted"
-			)]
+			currentScreen:this.HOME_SCREEN
 		}
 	}
 
@@ -125,6 +97,15 @@ class MainView extends Component {
 	render() {
 		const appBar = this.getAppBar();
 
+		const homeScreenCallbacks = {
+			onOrderMarkedAsAccepted:this.props.onOrderMarkedAsAccepted,
+			onOrderMarkedMarkAsReady:this.props.onOrderMarkedMarkAsReady,
+			onOrderMarkedAsShipped:this.props.onOrderMarkedAsShipped,
+			onUpdateOrder:this.props.onUpdateOrder,
+			onDeleteOrder:this.props.onDeleteOrder,
+			onOrderListFilterChanged:this.props.onOrderList
+		}
+
 		return (
 			<div 
 				id = {this.props.id}
@@ -152,7 +133,9 @@ class MainView extends Component {
 						<HomeScreen 
 							id="app-home-screen"
 							key={this.HOME_SCREEN}
-							orders={this.state.orders}> 
+							orders={this.props.orders}
+							{...homeScreenCallbacks}
+							> 
 						</HomeScreen>
 					</StackContainer>
 				</div>

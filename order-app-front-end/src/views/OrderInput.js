@@ -12,20 +12,25 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 
 import AdditionalPropTypes from "./../utils/AdditionalPropTypes";
 import AdvancedComponent from "./../components/AdvancedComponent"
+import OptimisticModel from "./../model/OptimisticModel";
 import Order from "./../model/Order";
 
 class OrderInput extends AdvancedComponent {
 	static propTypes = {
 		id:React.PropTypes.string.isRequired,
-		orderToEdit:React.PropTypes.instanceOf(Order),
+		orderToEdit:React.PropTypes.instanceOf(OptimisticModel),
 		onEmptyChanged:AdditionalPropTypes.typedFunc(React.PropTypes.boolean),
-		onPlaceOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order))
+		onPlaceOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
 	};
+
+	static get ACTION_BUTTON_PLACE_ORDER(){return "Place Order"};
+	static get ACTION_BUTTON_EDIT_ORDER(){return "Save Changes"};
 
 	constructor(props) {
 		super(props);
 		this.updateStateFromProps(props, (newState)=>{
-			this.state = newState
+			this.state = newState;
+			console.log(JSON.stringify(newState));
 		});
 	}
 
@@ -46,33 +51,40 @@ class OrderInput extends AdvancedComponent {
 		this.props.onEmptyChanged(this.state.containsEmptyData);
 	}
 
+	createEmptyOptimisticModel = () => {
+		return new OptimisticModel(new Order("","","","","",null,"",null,""), false);
+	};
+
 	updateStateFromProps = (props, stateSetter) => {
 		let order = undefined;
 		let containsEmptyData = true;
+		let actionButtonLabel = OrderInput.ACTION_BUTTON_PLACE_ORDER;
 		if (props.orderToEdit) {
 			order = {...props.orderToEdit};
 			containsEmptyData = this.containsEmptyData(order);
+			actionButtonLabel = OrderInput.ACTION_BUTTON_EDIT_ORDER;
 		} else {
-			order = new Order("","","","","",null,"",null,"");
+			order = this.createEmptyOptimisticModel();
 		}
 
-		stateSetter({order, containsEmptyData});
+		stateSetter({order, containsEmptyData, actionButtonLabel});
 	};
 
 	containsEmptyData = (order) => {
-		return (!(order.clientName 
-			|| order.clientAddress 
-			|| order.clientPhone 
-			|| order.clientOrder 
-			|| order.dueDate
-			|| order.voucherNumber
-			|| order.time
+		return (!(order.model.clientName 
+			|| order.model.clientAddress 
+			|| order.model.clientPhone 
+			|| order.model.clientOrder 
+			|| order.model.dueDate
+			|| order.model.voucherNumber
+			|| order.model.time
 			));
 	};
 
 	onPlaceOrder = () => {
 		if (this.props.onPlaceOrder) {
-			const order = {...this.state.order};
+			var order = {...this.state.order};
+			console.log("Placing Order:" + JSON.stringify(order));
 			this.props.onPlaceOrder(order);
 		}
 	};
@@ -83,9 +95,11 @@ class OrderInput extends AdvancedComponent {
 		this.setState((prevState, props)=>{
 			let newOrder = {};
 			newOrder[propertyName] = value;
-			newOrder = {...prevState.order, ...newOrder};
-			const isEmptyData = this.containsEmptyData(newOrder);
-			return {order:newOrder, containsEmptyData:isEmptyData}
+			newOrder = {...prevState.order.model, ...newOrder};
+			let newOptimisticModel = {...prevState.order, model:newOrder};
+			console.log(JSON.stringify(newOptimisticModel));
+			const isEmptyData = this.containsEmptyData(newOptimisticModel);
+			return {order:newOptimisticModel, containsEmptyData:isEmptyData}
 		}, () => { //Called after state is changed
 			if (prevIsEmptyData != this.state.containsEmptyData) {
 				this.props.onEmptyChanged(this.state.containsEmptyData)
@@ -123,19 +137,21 @@ class OrderInput extends AdvancedComponent {
 
 	creaetDatePickerInput = () => {
 	 	return <DatePicker 
-	    	className="due-date-picker" 
-	    	hintText="Due Date" 
+	    	className="due-date-picker input-field" 
+	    	hintText="Due Date:" 
+	    	floatingLabelText="Due Date:"
 	    	onChange={this.onDateChanged}
-	    	value={this.state.order.dueDate}/>;
+	    	value={this.state.order.model.dueDate}/>;
 	};
 
 	createTimePickerInput = () => {
 	    return <TimePicker 
 	    	format="24hr"
-	    	className="time-picker" 
-	    	hintText="Time"
+	    	className="input-field time-picker"
+	    	hintText="Delivery Time:"
+	    	floatingLabelText="Delivery Time:"
 	    	onChange={this.onTimeChanged}
-	    	value={this.state.order.time}/>;
+	    	value={this.state.order.model.time}/>;
 	};
 
 	render() {
@@ -144,37 +160,48 @@ class OrderInput extends AdvancedComponent {
 				 className="order-input-container">
 				 <div className="order-input-title">Place Order</div>
 				 <Divider />
-				<TextField hintText="Client Name" 
+				<TextField hintText="Enter Client Name" 
+					floatingLabelText="Client Name:"
+					className="input-field"
 					underlineShow={false} 
-					value={this.state.order.clientName}
+					value={this.state.order.model.clientName}
 					onChange={this.onClientNameChanged}/>
 			    <Divider />
-			    <TextField hintText="Address" 
+			    <TextField hintText="Enter Address" 
+			    	floatingLabelText="Address:"
+			    	className="input-field"
 			    	underlineShow={false} 
-			    	value={this.state.order.clientAddress}
+			    	value={this.state.order.model.clientAddress}
 			    	onChange={this.onClientAddressChanged}/>
 			    <Divider />
-			    <TextField hintText="Client Phone" 
+			    <TextField hintText="Enter Phone" 
+			    	floatingLabelText="Phone:" 
+			    	className="input-field"
 			    	underlineShow={false}
-			    	value={this.state.order.clientPhone}
+			    	value={this.state.order.model.clientPhone}
 			    	onChange={this.onClientPhoneChanged} />
-			    <Divider />
-			    <TextField hintText="Order" 
-			    	underlineShow={false} 
-			    	onChange={this.onClientOrderChanged}
-			    	value={this.state.order.clientOrder}/>
 			    <Divider />
 			    {this.creaetDatePickerInput()}
 			    {this.createTimePickerInput()}
 			    <TextField 
-			    	hintText="Vaucher Number" 
+			    	hintText="Enter Vaucher Number:" 
+			    	floatingLabelText="Vaucher Number:"
+			    	className="input-field"
 			    	underlineShow={false}
 			    	onChange={this.onVoucherNumberChanged} 
-			    	value={this.state.order.voucherNumber}/>
+			    	value={this.state.order.model.voucherNumber}/>
+			    <Divider />
+			    <TextField hintText="Enter Order" 
+			    	floatingLabelText="Order:" 
+			    	className="order-input"
+			    	multiLine={true}
+			    	underlineShow={false} 
+			    	onChange={this.onClientOrderChanged}
+			    	value={this.state.order.model.clientOrder}/>
 			    <Divider />
 			    <RaisedButton 
 			    	className="place-order-button" 
-			    	label="Place Order"
+			    	label={this.state.actionButtonLabel}
 			    	onTouchTap={this.onPlaceOrder}/>
 		    </div>
 		);
