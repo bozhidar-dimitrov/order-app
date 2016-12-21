@@ -88,6 +88,7 @@ class HomeScreen extends AdvancedComponent {
 	};
 	
 	onEditOrder = (order) => {
+		console.log("On Edit Order: " + JSON.stringify(order));
 		if (this.state.isOrderInputEmpty) {
 			this.setState({orderToEdit:order, showControlPanel:true});
 		} else {

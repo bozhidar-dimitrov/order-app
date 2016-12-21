@@ -19,17 +19,18 @@ import ContentClear from 'material-ui/svg-icons/content/clear';
 import AdvancedComponent from "./../components/AdvancedComponent";
 import AdditionalPropTypes from "./../utils/AdditionalPropTypes";
 import Order, {OrderStatus} from "./../model/Order";
+import OptimisticModel from "./../model/OptimisticModel";
 
 class OrderListItem extends AdvancedComponent {
 	static propTypes = {
 		order:React.PropTypes.object.isRequired,
 		expandMode:React.PropTypes.string.isRequired,
 		onExpand:React.PropTypes.func.isRequired,
-		onOrderMarkedAsAccepted:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
-		onOrderMarkedMarkAsReady:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
-		onOrderMarkedAsShipped:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
-		onEditOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
-		onDeleteOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(Order)),
+		onOrderMarkedAsAccepted:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onOrderMarkedMarkAsReady:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onOrderMarkedAsShipped:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onEditOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
+		onDeleteOrder:AdditionalPropTypes.typedFunc(React.PropTypes.instanceOf(OptimisticModel)),
 	};
 
 	constructor(props) {
@@ -56,7 +57,8 @@ class OrderListItem extends AdvancedComponent {
 
 	onEditOrder = (order) => {
 		if(this.props.onEditOrder) {
-			var orderToDispatch = {...order}
+			var orderToDispatch = Object.assign(new OptimisticModel(), order);
+			console.log("Dispatching order:"+JSON.stringify(orderToDispatch));
 			this.props.onEditOrder(orderToDispatch);
 		}
 	};

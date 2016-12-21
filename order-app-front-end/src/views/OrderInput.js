@@ -10,7 +10,7 @@ import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 
-import RequiredTextFieldDecorator from "./../components/RequiredTextFieldDecorator";
+import RequirableTextField from "./../components/RequirableTextField";
 import AdditionalPropTypes from "./../utils/AdditionalPropTypes";
 import AdvancedComponent from "./../components/AdvancedComponent"
 import OptimisticModel from "./../model/OptimisticModel";
@@ -61,7 +61,7 @@ class OrderInput extends AdvancedComponent {
 		let containsEmptyData = true;
 		let actionButtonLabel = OrderInput.ACTION_BUTTON_PLACE_ORDER;
 		if (props.orderToEdit) {
-			order = {...props.orderToEdit};
+			order = Object.assign(new OptimisticModel(), props.orderToEdit);
 			containsEmptyData = this.containsEmptyData(order);
 			actionButtonLabel = OrderInput.ACTION_BUTTON_EDIT_ORDER;
 		} else {
@@ -163,16 +163,14 @@ class OrderInput extends AdvancedComponent {
 				 className="order-input-container">
 				 <div className="order-input-title">Place Order</div>
 				 <Divider />
-				<RequiredTextFieldDecorator errorMessage={"This Field is Required"}>
-					<TextField hintText="Enter Client Name" 
-						floatingLabelText="Client Name:"
-						className="input-field"
-						underlineShow={false} 
-						value={this.state.order.model.clientName}
-						onChange={this.onClientNameChanged}/>
-				</RequiredTextFieldDecorator>
+				<RequirableTextField hintText="Enter Client Name" 
+					floatingLabelText="Client Name:"
+					className="input-field"
+					underlineShow={false} 
+					value={this.state.order.model.clientName}
+					onChange={this.onClientNameChanged}/>
 			    <Divider />
-			    <TextField hintText="Enter Address" 
+			    <RequirableTextField hintText="Enter Address" 
 			    	floatingLabelText="Address:"
 			    	multiLine={true}
 			    	className="input-field multiline-textfield"
@@ -180,7 +178,7 @@ class OrderInput extends AdvancedComponent {
 			    	value={this.state.order.model.clientAddress}
 			    	onChange={this.onClientAddressChanged}/>
 			    <Divider />
-			    <TextField hintText="Enter Phone" 
+			    <RequirableTextField hintText="Enter Phone" 
 			    	floatingLabelText="Phone:" 
 			    	className="input-field"
 			    	underlineShow={false}
@@ -199,7 +197,7 @@ class OrderInput extends AdvancedComponent {
 			    	onChange={this.onVoucherNumberChanged} 
 			    	value={this.state.order.model.voucherNumber}/>
 			    <Divider />
-			    <TextField hintText="Enter Order" 
+			    <RequirableTextField hintText="Enter Order" 
 			    	floatingLabelText="Order:" 
 			    	className="input-field multiline-textfield"
 			    	multiLine={true}

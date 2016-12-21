@@ -31,8 +31,22 @@
 	top: 28px !important;
 }
 
+.input-field.empty >label::after {
+	content: "*";
+	color: red;
+}
+
 .input-field>div {
 	top: 28px !important;
+}
+
+/*Error message div*/
+.input-field.empty>div:last-of-type {
+	bottom: 0px !important;
+	right: 0px !important;
+	top:0px !important;
+	position: absolute;
+	display: none;
 }
 
 .due-date-picker {
@@ -53,7 +67,12 @@
 	top: 0px !important;
 }
 
-.multiline-textfield>div:last-of-type>textarea:last-of-type {
+.multiline-textfield.not-empty>div:last-of-type>textarea:last-of-type {
 	margin-top: 23px !important;
+	margin-bottom: 0px !important;
+}
+
+.multiline-textfield.empty>div:nth-of-type(2)>textarea:last-of-type {
+	margin-top: 0px !important;
 	margin-bottom: 0px !important;
 }
