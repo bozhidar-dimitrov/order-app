@@ -28,6 +28,15 @@
 	display: none;
 }
 
+.list-item-menu-button>div:first-of-type>div:first-of-type { 
+	left: -50px !important;
+	top: 0px !important;
+}
+
+.order-list-item-progress{
+	
+}
+
 /* .order-item-edit-mode-container{
 	height: 10.7em !important;
 	display: flex !important;

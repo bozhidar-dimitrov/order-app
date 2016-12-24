@@ -1,7 +1,7 @@
 import React from 'react';
 import "./OrderListItem-Default.css";
 import muiThemeable from 'material-ui/styles/muiThemeable';
-
+import CircularProgress from 'material-ui/CircularProgress';
 import {grey400} from 'material-ui/styles/colors';
 import {ListItem} from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
@@ -72,44 +72,51 @@ class OrderListItem extends AdvancedComponent {
 	createListItemRightIconMenu = (element) => {
 		const iconButtonElement = (
 		  <IconButton
+		    className="list-item-menu-button"
 		    touch={true}
 		    tooltip="more"
-		    tooltipPosition="bottom-left"
+		    tooltipPosition="top-left"
 		  >
 		    <MoreVertIcon color={grey400} />
 		  </IconButton>
 		);
 
-		const rightIconMenu = (
-		  <IconMenu iconButtonElement={iconButtonElement}>
-		    <MenuItem 
-		    	leftIcon={this.getOrderStatusIcon("accepted")}
-		    	onTouchTap={(e)=>this.onOrderMarkedAsAccepted(element)}
-		    	>Mark as Accepted
-		    </MenuItem>
-		    <MenuItem leftIcon={this.getOrderStatusIcon("ready")}
-		    		  onTouchTap={(e)=>this.onOrderMarkedMarkAsReady(element)}>
-		    		  Mark as Ready
-		    </MenuItem>
-		    <MenuItem leftIcon={this.getOrderStatusIcon("shipped")}
-		    		  onTouchTap={(e)=>this.onOrderMarkedAsShipped(element)}>
-		    		  Mark as Shipped
-		    </MenuItem>
-		    <Divider/>
-		    <MenuItem 
-		    	leftIcon={<EditorModeEdit className="list-item-left-icon edit"/>} 
-		    	onTouchTap={(e)=>this.onEditOrder(element)}>
-		    	Edit
-	    	</MenuItem>
-		    <MenuItem 
-		    	leftIcon={<ContentClear className="list-item-left-icon clear"/>}
-		    	onTouchTap={(e)=>this.onDeleteOrder(element)}>
-		    	Delete
-		    </MenuItem>
-		  </IconMenu>
-		);
+		let resultComponent = <CircularProgress className="order-list-item-progress" />;
 
-		return rightIconMenu;
+		if (element.isSyncedWithTheServer) {
+			const rightIconMenu = (
+			  <IconMenu iconButtonElement={iconButtonElement}>
+			    <MenuItem 
+			    	leftIcon={this.getOrderStatusIcon("accepted")}
+			    	onTouchTap={(e)=>this.onOrderMarkedAsAccepted(element)}
+			    	>Mark as Accepted
+			    </MenuItem>
+			    <MenuItem leftIcon={this.getOrderStatusIcon("ready")}
+			    		  onTouchTap={(e)=>this.onOrderMarkedMarkAsReady(element)}>
+			    		  Mark as Ready
+			    </MenuItem>
+			    <MenuItem leftIcon={this.getOrderStatusIcon("shipped")}
+			    		  onTouchTap={(e)=>this.onOrderMarkedAsShipped(element)}>
+			    		  Mark as Shipped
+			    </MenuItem>
+			    <Divider/>
+			    <MenuItem 
+			    	leftIcon={<EditorModeEdit className="list-item-left-icon edit"/>} 
+			    	onTouchTap={(e)=>this.onEditOrder(element)}>
+			    	Edit
+		    	</MenuItem>
+			    <MenuItem 
+			    	leftIcon={<ContentClear className="list-item-left-icon clear"/>}
+			    	onTouchTap={(e)=>this.onDeleteOrder(element)}>
+			    	Delete
+			    </MenuItem>
+			  </IconMenu>
+			  );
+			  resultComponent = rightIconMenu;
+			}
+		
+
+		return resultComponent;
 	};
 
 	createOrderTitle = (dueDate, timeDate) => {

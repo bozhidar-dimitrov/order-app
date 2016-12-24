@@ -6,10 +6,7 @@
     "babel-root-import": "^4.1.5",
     "react-scripts": "0.8.4"
   },
-  "dependencies": {
-    "react": "^15.4.1",
-    "react-dom": "^15.4.1"
-  },
+  "dependencies": {},
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

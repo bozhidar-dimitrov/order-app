@@ -2,6 +2,10 @@
 	overflow: auto;
 }
 
+.order-list {
+	overflow: hidden;
+}
+
 .list-item-left-icon.accepted {
 	fill:#FF5722 !important;
 }
@@ -57,9 +61,11 @@
 
 .list-item-mode-transition-leave {
   	opacity: 1;
+    max-height: 75px;
 }
 
 .list-item-mode-transition-leave.list-item-mode-transition-leave-active {
   	opacity: 0.01;
-  	transition: opacity 500ms ease-in;
+  	max-height: 1px;
+  	transition: opacity 300ms ease-in, max-height 300ms ease-in;
 }

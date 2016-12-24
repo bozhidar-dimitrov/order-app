@@ -51,7 +51,6 @@ class RequireableTextField extends AdvancedComponent {
 		}
 
 		this.setState({errorText, textFieldClassName});
-		
 	};
 
 	componentWillReceiveProps(newProps) {
