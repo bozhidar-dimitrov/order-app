@@ -57,7 +57,8 @@ class App extends Component {
 				"123142123",
 				new Date(),
 				"accepted"
-			), true)]
+			), true)],
+      ordersToShowFilter:null
   	}
   }
 
@@ -171,9 +172,28 @@ class App extends Component {
     this.deleteOrderInTheServer(newOptimisticModel);
   };
 
-  onOrderListFilterChanged = (onOrderListFilter) => {
-    
+  updateFilterOnServer = () => {
+    //TO be implemented
   };
+
+  onOrderListFilterChanged = (ordersToShowFilter) => {
+    console.log(JSON.stringify(ordersToShowFilter));
+    this.setState({ordersToShowFilter});
+    this.updateFilterOnServer(ordersToShowFilter);
+  };
+
+  filterOrders = (orders) => {
+    let resultOrders = this.state.orders;
+    if (this.state.ordersToShowFilter) {
+      resultOrders = orders.filter((element)=>{
+        return (
+          this.state.ordersToShowFilter.statusesToShow.includes(element.model.status) 
+          && (element.model.dueDate >= this.state.ordersToShowFilter.fromDate)
+          && (element.model.dueDate <= this.state.ordersToShowFilter.toDate)); 
+      });
+    }
+    return resultOrders;
+  }
 
   render() {
 	const mainViewCallbacks = {
@@ -182,14 +202,14 @@ class App extends Component {
 		onOrderMarkedAsShipped:this.onOrderMarkedAsShipped,
 		onUpdateOrder:this.onUpdateOrder,
 		onDeleteOrder:this.onDeleteOrder,
-		onOrderListFilterChanged:this.onOrderList
+		onOrderListFilterChanged:this.onOrderListFilterChanged
 	}
 
     return (
     	<MuiThemeProvider>
     		<MainView id="app-main-view"
     			title="Order App"
-    			orders={this.state.orders}
+    			orders={this.filterOrders(this.state.orders)}
     			{...mainViewCallbacks}/>
       	</MuiThemeProvider>
     );

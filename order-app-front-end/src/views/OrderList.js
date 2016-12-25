@@ -110,8 +110,8 @@ class OrderList extends AdvancedComponent {
 					<ReactCSSTransitionGroup 
 						transitionName="list-item-mode-transition"
 						className="list-item-mode-transition-group"
-						transitionEnterTimeout={1000}
-      					transitionLeaveTimeout={500}>
+						transitionEnterTimeout={300}
+      					transitionLeaveTimeout={300}>
 						{listItems}
 					</ReactCSSTransitionGroup>
 					</List>

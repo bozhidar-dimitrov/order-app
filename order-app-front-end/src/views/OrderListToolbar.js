@@ -19,66 +19,78 @@ class OrderListToolbar extends AdvancedComponent {
 		super(props);
 
 		const currentDate = new Date();
+		const oneDayBeforeCurrentDate = new Date();
+		oneDayBeforeCurrentDate.setDate(currentDate.getDate()-1);
 		const oneDayAfterCurrentDate = new Date();
 		oneDayAfterCurrentDate.setDate(currentDate.getDate()+1);
+		
 		this.state = {
 			acceptedToggled:true,
 			readyToggled:true,
-			shippedToggled:false,
-			fromDate: currentDate,
+			shippedToggled:true,
+			fromDate: oneDayBeforeCurrentDate,
 			toDate: oneDayAfterCurrentDate
 		}
+	}
+
+	componentDidMount() {
+		this.onFilterChanged();
 	}
 
 	onFilterChanged = () => {
 		if (this.props.onOrderListFilterChanged) {
 			let statusesToShow = [];
 			if (this.state.acceptedToggled) {
-				statusesToShow.append(OrderStatus.ACCEPTED);
+				statusesToShow.push(OrderStatus.ACCEPTED);
 			}
 
 			if (this.state.readyToggled) {
-				statusesToShow.append(OrderStatus.READY);
+				statusesToShow.push(OrderStatus.READY);
 			}
 
 			if (this.state.shippedToggled) {
-				statusesToShow.append(OrderStatus.SHIPPED);
+				statusesToShow.push(OrderStatus.SHIPPED);
 			}
 
 			const filter = new OrderListFilter(statusesToShow, this.state.fromDate, this.state.toDate);
 			this.props.onOrderListFilterChanged(filter);		
 		}
-	}
+	};
+
+	setStateAndCallOnFilterChanged = (stateSetter) => {
+		this.setState(stateSetter, ()=>{
+			this.onFilterChanged();
+		});
+	};
 
 	onAcceptedOrderButtonToggle = (e) => {
-		this.setState((prevState, props) => {
+		this.setStateAndCallOnFilterChanged((prevState, props) => {
 			return {acceptedToggled: !prevState.acceptedToggled}
-		})
-		this.onFilterChanged();
+		});
 	};
 
 	onReadyOrderButtonToggle = (e) => {
-		this.setState((prevState, props) => {
+		this.setStateAndCallOnFilterChanged((prevState, props) => {
 			return {readyToggled: !prevState.readyToggled}
-		})
-		this.onFilterChanged();
+		});
 	};
 
 	onShippedOrderButtonToggle = (e) => {
-		this.setState((prevState, props) => {
+		this.setStateAndCallOnFilterChanged((prevState, props) => {
 			return {shippedToggled: !prevState.shippedToggled}
-		})
-		this.onFilterChanged();
+		});
 	};
 
 	onFromDateChanged = (e, date) => {
-		this.setState({fromDate:date});
-		this.onFilterChanged();
+		this.setStateAndCallOnFilterChanged((prevState, props) => {
+			return {fromDate:date};
+		});
 	};
 
 	onToDateChanged = (e, date) => {
-		this.setState({toDate:date})
-		this.onFilterChanged();
+		this.setStateAndCallOnFilterChanged((prevState, props) => {
+			return {toDate:date};
+		});
 	};
 
 	render() {
@@ -121,7 +133,7 @@ class OrderListToolbar extends AdvancedComponent {
 							className="delivered-orders-button" 
 							isToggled={this.state.shippedToggled}
 							normal={{
-								label:"Delivered",
+								label:"Shipped",
 								style:normalButtonStyle
 							}}
 							toggle= {{

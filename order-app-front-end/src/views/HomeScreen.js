@@ -172,7 +172,7 @@ class HomeScreen extends AdvancedComponent {
 			onOrderMarkedAsShipped:this.props.onOrderMarkedAsShipped,
 			onUpdateOrder:this.props.onUpdateOrder,
 			onDeleteOrder:this.props.onDeleteOrder,
-			onOrderListFilterChanged:this.props.onOrderList
+			onOrderListFilterChanged:this.props.onOrderListFilterChanged
 		}
 
 		return (	
