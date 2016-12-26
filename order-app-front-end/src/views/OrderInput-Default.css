@@ -31,22 +31,34 @@
 	top: 28px !important;
 }
 
-.input-field.empty >label::after {
+.input-field.empty  label::after {
 	content: "*";
 	color: red;
 }
 
-.input-field>div {
+.input-field:not(.due-date-picker)>div {
+	top: 28px !important;
+}
+
+.due-date-picker>div>div {
 	top: 28px !important;
 }
 
 /*Error message div*/
-.input-field.empty>div:last-of-type {
+.input-field.empty:not(.due-date-picker)>div:last-of-type {
 	bottom: 0px !important;
 	right: 0px !important;
 	top:0px !important;
-	position: absolute;
-	display: none;
+	position: absolute !important;
+	display: none !important;
+}
+
+.due-date-picker>div>div:last-of-type {
+	bottom: 0px !important;
+	right: 0px !important;
+	top:0px !important;
+	position: absolute !important;
+	display: none !important;
 }
 
 .due-date-picker {

@@ -10,11 +10,18 @@ import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 
-import RequirableTextField from "./../components/RequirableTextField";
+import {RequirableTextField} from "./../components/RequirableField";
+import {RequirableDateTimeField} from "./../components/RequirableField";
+
 import AdditionalPropTypes from "./../utils/AdditionalPropTypes";
 import AdvancedComponent from "./../components/AdvancedComponent"
 import OptimisticModel from "./../model/OptimisticModel";
 import Order from "./../model/Order";
+
+const RequirableTextFieldComponent = RequirableTextField(TextField);
+const RequirableDataPicker = RequirableDateTimeField(DatePicker);
+const RequirableTimePicker = RequirableDateTimeField(TimePicker);
+
 
 class OrderInput extends AdvancedComponent {
 	static propTypes = {
@@ -67,9 +74,19 @@ class OrderInput extends AdvancedComponent {
 		} else {
 			order = this.createEmptyOptimisticModel();
 		}
+		const correctlyFilled = this.checkCorrectlyFilled(order);
 
-		stateSetter({order, containsEmptyData, actionButtonLabel});
+		stateSetter({order, containsEmptyData, actionButtonLabel, correctlyFilled});
 	};
+
+	checkCorrectlyFilled(order) {
+		return (order.model.clientName 
+			&& order.model.clientPhone 
+			&& order.model.clientOrder 
+			&& order.model.dueDate
+			&& order.model.time
+		);
+	}
 
 	containsEmptyData = (order) => {
 		return (!(order.model.clientName 
@@ -100,7 +117,8 @@ class OrderInput extends AdvancedComponent {
 			let newOptimisticModel = {...prevState.order, model:newOrder};
 			console.log(JSON.stringify(newOptimisticModel));
 			const isEmptyData = this.containsEmptyData(newOptimisticModel);
-			return {order:newOptimisticModel, containsEmptyData:isEmptyData}
+			const correctlyFilled = this.checkCorrectlyFilled(prevState.order);
+			return {order:newOptimisticModel, containsEmptyData:isEmptyData, correctlyFilled}
 		}, () => { //Called after state is changed
 			if (prevIsEmptyData != this.state.containsEmptyData) {
 				this.props.onEmptyChanged(this.state.containsEmptyData)
@@ -137,7 +155,7 @@ class OrderInput extends AdvancedComponent {
 	};
 
 	creaetDatePickerInput = () => {
-	 	return <DatePicker 
+	 	return <RequirableDataPicker 
 	    	className="due-date-picker input-field" 
 	    	hintText="Due Date:" 
 	    	floatingLabelText="Due Date:"
@@ -147,7 +165,7 @@ class OrderInput extends AdvancedComponent {
 	};
 
 	createTimePickerInput = () => {
-	    return <TimePicker 
+	    return <RequirableTimePicker 
 	    	format="24hr"
 	    	className="input-field time-picker"
 	    	hintText="Delivery Time:"
@@ -163,14 +181,14 @@ class OrderInput extends AdvancedComponent {
 				 className="order-input-container">
 				 <div className="order-input-title">Place Order</div>
 				 <Divider />
-				<RequirableTextField hintText="Enter Client Name" 
+				<RequirableTextFieldComponent hintText="Enter Client Name" 
 					floatingLabelText="Client Name:"
 					className="input-field"
 					underlineShow={false} 
 					value={this.state.order.model.clientName}
 					onChange={this.onClientNameChanged}/>
 			    <Divider />
-			    <RequirableTextField hintText="Enter Address" 
+			    <RequirableTextFieldComponent hintText="Enter Address" 
 			    	floatingLabelText="Address:"
 			    	multiLine={true}
 			    	className="input-field multiline-textfield"
@@ -178,7 +196,7 @@ class OrderInput extends AdvancedComponent {
 			    	value={this.state.order.model.clientAddress}
 			    	onChange={this.onClientAddressChanged}/>
 			    <Divider />
-			    <RequirableTextField hintText="Enter Phone" 
+			    <RequirableTextFieldComponent hintText="Enter Phone" 
 			    	floatingLabelText="Phone:" 
 			    	className="input-field"
 			    	underlineShow={false}
@@ -197,7 +215,7 @@ class OrderInput extends AdvancedComponent {
 			    	onChange={this.onVoucherNumberChanged} 
 			    	value={this.state.order.model.voucherNumber}/>
 			    <Divider />
-			    <RequirableTextField hintText="Enter Order" 
+			    <RequirableTextFieldComponent hintText="Enter Order" 
 			    	floatingLabelText="Order:" 
 			    	className="input-field multiline-textfield"
 			    	multiLine={true}
@@ -206,6 +224,8 @@ class OrderInput extends AdvancedComponent {
 			    	value={this.state.order.model.clientOrder}/>
 			    <Divider />
 			    <RaisedButton 
+			    	primary={true}
+			    	disabled = {!this.state.correctlyFilled}
 			    	className="place-order-button" 
 			    	label={this.state.actionButtonLabel}
 			    	onTouchTap={this.onPlaceOrder}/>

@@ -122,6 +122,7 @@ class App extends Component {
   }
 
   onUpdateOrder = (order) => {
+    console.log("Updating order " + JSON.stringify(order));
     let orders = null;
     if (this.containsOrderWithId(this.state.orders, order.model.id)) {
       const newOrder = Object.assign(new OptimisticModel(), order, {isSyncedWithTheServer:false});
@@ -134,6 +135,7 @@ class App extends Component {
       const orderCopy = Object.assign(new Order(), order.model, {"id":temporaryId, "status":OrderStatus.ACCEPTED}); 
       const newOrder =  new OptimisticModel(orderCopy, false);
       orders = this.insertOrder(this.state.orders, newOrder);
+      console.log("New Orders" + JSON.stringify(orders));
       this.setState({orders}, () =>{
           this.insertOrderInTheServer(newOrder);
       });
