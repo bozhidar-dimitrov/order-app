@@ -7,7 +7,7 @@ import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import muiThemeable from 'material-ui/styles/muiThemeable'
 
-import HomeScreen from './HomeScreen';
+import HomeScreenContainer from './../containers/HomeScreenContainer';
 import LoginScreen from './LoginScreen';
 import StackContainer from './../components/StackContainer';
 import Order from './../model/Order';
@@ -130,13 +130,12 @@ class MainView extends Component {
 						title = "Please Enter Your Credentials"
 						errorMessage  ={this.state.loginErrorMessage}
 						onLogin = {this.onLogin}/>
-						<HomeScreen 
+						<HomeScreenContainer
 							id="app-home-screen"
 							key={this.HOME_SCREEN}
 							orders={this.props.orders}
 							{...homeScreenCallbacks}
-							> 
-						</HomeScreen>
+							/>
 					</StackContainer>
 				</div>
 			</div>

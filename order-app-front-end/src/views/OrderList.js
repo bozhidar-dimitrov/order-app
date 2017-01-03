@@ -8,7 +8,7 @@ import Subheader from 'material-ui/Subheader';
 import FlatButton from 'material-ui/FlatButton';
 
 import OrderListItem from './OrderListItem';
-import OrderListToolbar from './OrderListToolbar';
+import OrderListToolbarContainer from './../containers/OrderListToolbarContainer';
 import AdvancedComponent from "./../components/AdvancedComponent";
 import Caption from "./../components/Caption";
 import AdditionalPropTypes from "./../utils/AdditionalPropTypes";
@@ -94,7 +94,7 @@ class OrderList extends AdvancedComponent {
 	};
 
 	createOrderListToolbar = (orderListToolbar) => {
-		return <OrderListToolbar onOrderListFilterChanged={this.props.onOrderListFilterChanged}/>;
+		return <OrderListToolbarContainer onOrderListFilterChanged={this.props.onOrderListFilterChanged}/>;
 	};
 
 	render() {

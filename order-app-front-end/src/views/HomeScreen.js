@@ -13,7 +13,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable';
 import "./HomeScreen-Default.css"
 
 import OrderInput from "./OrderInput";
-import OrderList from "./OrderList";
+import OrderListContainer from "./../containers/OrderListContainer";
 import AdvancedComponent from "./../components/AdvancedComponent";
 
 import Order from "./../model/Order";
@@ -210,7 +210,7 @@ class HomeScreen extends AdvancedComponent {
 						onPlaceOrder={this.onUpdateOrder}/> }
 				</Paper> 
 				<Paper key="orders" className="orders" zDepth={2}>
-					<OrderList id="app-order-list" {...orderListCallbacks} data={this.props.orders} onEditOrder={this.onEditOrder}/>
+					<OrderListContainer id="app-order-list" {...orderListCallbacks} data={this.props.orders} onEditOrder={this.onEditOrder}/>
 				</Paper>
 
 				</ReactCSSTransitionGroup>

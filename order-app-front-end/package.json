@@ -6,7 +6,9 @@
     "babel-root-import": "^4.1.5",
     "react-scripts": "0.8.4"
   },
-  "dependencies": {},
+  "dependencies": {
+    "react-redux": "^5.0.1"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

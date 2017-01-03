@@ -6,6 +6,12 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MainView from './views/MainView';
 import uuid from 'uuid/v4';
 
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
+
+import orderApp from './reducers';
+
 import Order, {OrderStatus} from "./model/Order";
 import OptimisticModel from "./model/OptimisticModel";
 import OrderListFilter from "./model/OrderListFilter";
@@ -13,6 +19,7 @@ import OrderListFilter from "./model/OrderListFilter";
 injectTapEventPlugin();
 
 class App extends Component {
+
   constructor(props) {
   	super(props);
 
@@ -60,7 +67,18 @@ class App extends Component {
 			), true)],
       ordersToShowFilter:null
   	}
+  };
+
+  componentWillMount() {
+     let preloadedState = {'orders':[]}
+     this.store = this.configureStore(preloadedState);
   }
+
+  configureStore = (preloadedState) => {
+    return createStore(orderApp, {orders:[]},  applyMiddleware(
+      thunkMiddleware
+    ))
+  };
 
   markOrderByIdWithStatus = (orders, orderId, status) => {
     const result = orders.map((element)=>{
@@ -92,34 +110,34 @@ class App extends Component {
     this.updateOrderStatus(order, OrderStatus.SHIPPED);
   };
 
-  updateOrder = (orders, order) => {
-    let newOrders = orders.map((element)=>{
-      if (element.model.id !== order.model.id) {
-        return element;
-      } else {
-        return order;
-      }
-    });
-
-    return newOrders;
-  };
-
-  insertOrder = (orders, order) => {
-    const newOrders = [...orders, order];
-    return newOrders;
-  };
-
-  deleteOrder = (orders, order) => {
-    const newOrders = orders.filter((element)=> {
-      return (element.model.id != order.model.id);
-    });
-    return newOrders;
-  }
-
   containsOrderWithId = (orders, id) => {
     const elementWithTheSameId = orders.find((element)=>{return element.model.id == id});
     return (elementWithTheSameId != undefined);
-  }
+  };
+
+  updateOrder = (orders, order) => {
+      let newOrders = orders.map((element)=>{
+        if (element.model.id !== order.model.id) {
+          return element;
+        } else {
+          return order;
+        }
+      });
+
+      return newOrders;
+  };    
+
+ insertOrder = (orders, order) => {
+      const newOrders = [...orders, order];
+    return newOrders;
+  };
+
+ deleteOrder = (orders, order) => {
+      const newOrders = orders.filter((element)=> {
+        return (element.model.id != order.model.id);
+      });
+      return newOrders;
+  };
 
   onUpdateOrder = (order) => {
     console.log("Updating order " + JSON.stringify(order));
@@ -198,22 +216,24 @@ class App extends Component {
   }
 
   render() {
-	const mainViewCallbacks = {
-		onOrderMarkedAsAccepted:this.onOrderMarkedAsAccepted,
-		onOrderMarkedMarkAsReady:this.onOrderMarkedMarkAsReady,
-		onOrderMarkedAsShipped:this.onOrderMarkedAsShipped,
-		onUpdateOrder:this.onUpdateOrder,
-		onDeleteOrder:this.onDeleteOrder,
-		onOrderListFilterChanged:this.onOrderListFilterChanged
-	}
-
+  	const mainViewCallbacks = {
+  		onOrderMarkedAsAccepted:this.onOrderMarkedAsAccepted,
+  		onOrderMarkedMarkAsReady:this.onOrderMarkedMarkAsReady,
+  		onOrderMarkedAsShipped:this.onOrderMarkedAsShipped,
+  		onUpdateOrder:this.onUpdateOrder,
+  		onDeleteOrder:this.onDeleteOrder,
+  		onOrderListFilterChanged:this.onOrderListFilterChanged
+  	}
     return (
     	<MuiThemeProvider>
-    		<MainView id="app-main-view"
-    			title="Order App"
-    			orders={this.filterOrders(this.state.orders)}
-    			{...mainViewCallbacks}/>
-      	</MuiThemeProvider>
+        <Provider store={this.store}>
+      		<MainView id="app-main-view"
+      			title="Order App"
+      			orders={this.filterOrders(this.state.orders)}
+      			{...mainViewCallbacks}/>
+        </Provider>
+    	</MuiThemeProvider>
+
     );
   }
 }
